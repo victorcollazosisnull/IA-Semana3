@@ -3,13 +3,14 @@ using UnityEngine;
 public abstract class State
 {
     protected FSMManager fsm;
-    protected Vehicle steering;
-    protected AIEye _AIEye;
+    protected NavMeshExample nav;
+    protected AIEye eye;
+
     public State(FSMManager fsm)
     {
         this.fsm = fsm;
-        this.steering = fsm.GetComponent<Vehicle>();
-        this._AIEye = fsm.GetComponent<AIEye>();
+        this.nav = fsm.GetComponent<NavMeshExample>();
+        this.eye = fsm.GetComponent<AIEye>();
     }
 
     public abstract void Enter();

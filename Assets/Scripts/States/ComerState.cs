@@ -7,12 +7,13 @@ public class ComerState : State
     public override void Enter()
     {
         Debug.Log("Estado: COMER");
-        steering.target = fsm.comida;
-        steering.currentBehavior = Vehicle.SteeringBehaviorType.Arrive;
+        //steering.target = fsm.comida;
+        //steering.currentBehavior = Vehicle.SteeringBehaviorType.Arrive;
     }
 
     public override void Execute()
     {
+        nav.MoveToTargetPosition(fsm.comida.position);
         if (Vector3.Distance(fsm.transform.position, fsm.comida.position) < 1.5f)
         {
             fsm.hambre -= Time.deltaTime * 30f;

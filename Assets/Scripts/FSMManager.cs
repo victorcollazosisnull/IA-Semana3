@@ -9,14 +9,14 @@ public class FSMManager : MonoBehaviour
     public float energia = 100;
     public float necesidadWC = 0;
 
-    [Header("Sensores")]
-    public bool jugueteDetectado = false;
-
     [Header("Targets")]
     public Transform cama;
     public Transform comida;
     public Transform wc;
     public Transform juguete;
+
+    [Header("Zona de juego")]
+    public Transform patio;
 
     void Start()
     {
@@ -26,9 +26,6 @@ public class FSMManager : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.J))
-        //    jugueteDetectado = true;
-
         currentState.Execute();
     }
 
