@@ -16,8 +16,12 @@ public class JugarState : State
         fsm.energia -= Time.deltaTime * 3f;
         fsm.necesidadWC += Time.deltaTime * 4f;
 
-        if (fsm.jugueteDetectado)
+        if (_AIEye.ViewPlayer != null)
+        {
+            Debug.Log("VI UN JUGUETE");
+            fsm.juguete = _AIEye.ViewPlayer;
             fsm.ChangeState(new SeguirJugueteState(fsm));
+        }
         else if (fsm.hambre > 80f)
             fsm.ChangeState(new ComerState(fsm));
         else if (fsm.energia < 20f)

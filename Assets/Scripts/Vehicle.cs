@@ -38,6 +38,12 @@ public class Vehicle : MonoBehaviour
     private Vector3 velocity;
     private int pathIndex;
     private Vector3 wanderTarget;
+    private Rigidbody targetRb;
+    void Start()
+    {
+        if (target != null)
+            targetRb = target.GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -153,13 +159,13 @@ public class Vehicle : MonoBehaviour
 
     Vector3 Pursuit(Transform prey)
     {
-        Vector3 futurePos = prey.position + prey.GetComponent<Rigidbody>().linearVelocity;
+        Vector3 futurePos = prey.position + targetRb.linearVelocity;
         return Seek(futurePos);
     }
 
     Vector3 Evade(Transform prey)
     {
-        Vector3 futurePos = prey.position + prey.GetComponent<Rigidbody>().linearVelocity;
+        Vector3 futurePos = prey.position + targetRb.linearVelocity;
         return Flee(futurePos);
     }
 
@@ -193,28 +199,38 @@ public class Vehicle : MonoBehaviour
 
     Vector3 ObstacleAvoidance()
     {
+        float detectLength = 3f;
+
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 3f, obstacleLayer))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, detectLength, obstacleLayer))
         {
-            return hit.normal * maxForce;
+            Vector3 avoidDir = Vector3.Reflect(transform.forward, hit.normal);
+            return avoidDir.normalized * maxForce;
         }
+
         return Vector3.zero;
     }
 
     Vector3 WallAvoidance()
     {
+        float detectLength = 3f;
         RaycastHit hit;
-        Vector3 left = Quaternion.AngleAxis(-30, transform.up) * transform.forward;
-        Vector3 right = Quaternion.AngleAxis(30, transform.up) * transform.forward;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 3f, obstacleLayer))
-            return hit.normal * maxForce;
+        Vector3[] directions = new Vector3[]
+        {
+        transform.forward,
+        Quaternion.AngleAxis(-30, transform.up) * transform.forward,
+        Quaternion.AngleAxis(30, transform.up) * transform.forward
+        };
 
-        if (Physics.Raycast(transform.position, left, out hit, 3f, obstacleLayer))
-            return hit.normal * maxForce;
-
-        if (Physics.Raycast(transform.position, right, out hit, 3f, obstacleLayer))
-            return hit.normal * maxForce;
+        foreach (var dir in directions)
+        {
+            if (Physics.Raycast(transform.position, dir, out hit, detectLength, obstacleLayer))
+            {
+                Vector3 avoidDir = Vector3.Reflect(dir, hit.normal);
+                return avoidDir.normalized * maxForce;
+            }
+        }
 
         return Vector3.zero;
     }

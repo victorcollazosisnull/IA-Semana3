@@ -26,8 +26,8 @@ public class FSMManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-            jugueteDetectado = true;
+        //if (Input.GetKeyDown(KeyCode.J))
+        //    jugueteDetectado = true;
 
         currentState.Execute();
     }
