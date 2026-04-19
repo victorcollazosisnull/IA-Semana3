@@ -96,8 +96,13 @@ public class Vehicle : MonoBehaviour
                 break;
 
             case SteeringBehaviorType.Wander:
-                steeringForce = Wander();
-                break;
+                {
+                    Vector3 wanderForce = Wander();
+                    Vector3 avoidForce = ObstacleAvoidance() * 5f;
+
+                    steeringForce = wanderForce + avoidForce;
+                    break;
+                }
 
             case SteeringBehaviorType.ObstacleAv:
                 steeringForce = ObstacleAvoidance();
@@ -187,6 +192,11 @@ public class Vehicle : MonoBehaviour
 
     Vector3 Wander()
     {
+        if (Physics.Raycast(transform.position, transform.forward, 2f, obstacleLayer))
+        {
+            wanderTarget = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * 2f;
+        }
+
         wanderTarget += new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
         wanderTarget.Normalize();
         wanderTarget *= 2f;
@@ -200,12 +210,15 @@ public class Vehicle : MonoBehaviour
     Vector3 ObstacleAvoidance()
     {
         float detectLength = 3f;
-
         RaycastHit hit;
+
         if (Physics.Raycast(transform.position, transform.forward, out hit, detectLength, obstacleLayer))
         {
-            Vector3 avoidDir = Vector3.Reflect(transform.forward, hit.normal);
-            return avoidDir.normalized * maxForce;
+            Vector3 avoidDir = hit.normal;
+
+            Vector3 side = Vector3.Cross(hit.normal, Vector3.up);
+
+            return (avoidDir + side).normalized * maxForce;
         }
 
         return Vector3.zero;
