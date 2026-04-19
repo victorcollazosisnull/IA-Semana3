@@ -7,18 +7,20 @@ public class JugarState : State
     public override void Enter()
     {
         Debug.Log("Estado: JUGAR");
-        steering.currentBehavior = Vehicle.SteeringBehaviorType.Wander;
+
+        nav.MoveTo(fsm.transform);
     }
 
     public override void Execute()
     {
+        nav.WanderPatio();
+
         fsm.hambre += Time.deltaTime * 5f;
         fsm.energia -= Time.deltaTime * 3f;
         fsm.necesidadWC += Time.deltaTime * 4f;
 
         if (_AIEye.ViewPlayer != null)
         {
-            Debug.Log("VI UN JUGUETE");
             fsm.juguete = _AIEye.ViewPlayer;
             fsm.ChangeState(new SeguirJugueteState(fsm));
         }

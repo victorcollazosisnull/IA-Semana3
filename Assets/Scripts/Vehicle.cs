@@ -43,6 +43,7 @@ public class Vehicle : MonoBehaviour
     {
         if (target != null)
             targetRb = target.GetComponent<Rigidbody>();
+
     }
 
     void Update()

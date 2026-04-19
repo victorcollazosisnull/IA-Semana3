@@ -7,21 +7,24 @@ public class SeguirJugueteState : State
     public override void Enter()
     {
         Debug.Log("Estado: SEGUIR JUGUETE");
-        steering.target = fsm.juguete;
-        steering.currentBehavior = Vehicle.SteeringBehaviorType.Seek;
+        //steering.target = fsm.juguete;
+        //steering.currentBehavior = Vehicle.SteeringBehaviorType.Seek;
     }
 
     public override void Execute()
     {
-        if (fsm.juguete != null &&
-        Vector3.Distance(fsm.transform.position, fsm.juguete.position) < 1.5f)
+        if (fsm.juguete != null)
         {
-            if (fsm.juguete.CompareTag("Toy"))
-            {
-                GameObject.Destroy(fsm.juguete.gameObject);
-            }
+            nav.MoveTo(fsm.juguete);
 
-            fsm.juguete = null;
+            if (Vector3.Distance(fsm.transform.position, fsm.juguete.position) < 1.5f)
+            {
+                Debug.Log("Llegó al juguete");
+                fsm.ChangeState(new JugarState(fsm));
+            }
+        }
+        else
+        {
             fsm.ChangeState(new JugarState(fsm));
         }
     }
