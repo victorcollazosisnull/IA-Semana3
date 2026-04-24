@@ -28,7 +28,7 @@ public class SeguirJugueteState : State
 
                 fsm.juguete = null;
 
-                jugueteObj.SetActive(false);
+                Object.Destroy(jugueteObj);
 
                 fsm.ChangeState(new JugarState(fsm));
             }

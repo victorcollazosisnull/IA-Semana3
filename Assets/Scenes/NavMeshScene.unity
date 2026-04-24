@@ -4003,8 +4003,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToySpawner
   toyPrefab: {fileID: 382586666317504004, guid: 5d03fc39d62b33c44b449335e85eb237, type: 3}
-  cantidad: 5
-  radio: 5
+  cantidad: 10
+  radio: 7
   altura: 1.3
 --- !u!4 &1061728372
 Transform:
@@ -4015,7 +4015,7 @@ Transform:
   m_GameObject: {fileID: 1061728370}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.06, y: 0, z: 6.29}
+  m_LocalPosition: {x: -24.97, y: 0, z: 5.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5498,6 +5498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2e1c09bfc949a4c924251afbfe62bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FSMManager
+  puedeDetectarJuguete: 0
   hambre: 0
   energia: 100
   necesidadWC: 0
