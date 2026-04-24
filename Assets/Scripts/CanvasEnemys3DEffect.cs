@@ -11,8 +11,15 @@ public class CanvasEnemys3DEffect : MonoBehaviour
 
     void LateUpdate()
     {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        if (mainCamera == null) return;
+
         Vector3 dir = transform.position - mainCamera.transform.position;
         dir.y = 0;
-        transform.rotation = Quaternion.LookRotation(dir);
+
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
     }
 }

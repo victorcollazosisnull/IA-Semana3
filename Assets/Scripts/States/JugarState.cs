@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class JugarState : State
@@ -8,7 +9,7 @@ public class JugarState : State
     {
         Debug.Log("Estado: JUGAR");
 
-        nav.MoveTo(fsm.transform);
+        //nav.MoveTo(fsm.transform);
     }
 
     public override void Execute()
@@ -19,7 +20,7 @@ public class JugarState : State
         fsm.energia -= Time.deltaTime * 3f;
         fsm.necesidadWC += Time.deltaTime * 4f;
 
-        if (_AIEye.ViewPlayer != null)
+        if (fsm.puedeDetectarJuguete && _AIEye.ViewPlayer != null)
         {
             fsm.juguete = _AIEye.ViewPlayer;
             fsm.ChangeState(new SeguirJugueteState(fsm));
@@ -30,6 +31,8 @@ public class JugarState : State
             fsm.ChangeState(new DormirState(fsm));
         else if (fsm.necesidadWC > 70f)
             fsm.ChangeState(new WCState(fsm));
+
+        Debug.Log($"Estado: JUGAR - Hambre: {fsm.hambre}, Energía: {fsm.energia}, NecesidadWC: {fsm.necesidadWC}");
     }
 
     public override void Exit() { }

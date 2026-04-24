@@ -16,6 +16,8 @@ public class NPCNavController : MonoBehaviour
 
     public void WanderPatio()
     {
+        if (navMesh == null) return;
+
         timer -= Time.deltaTime;
 
         if (timer <= 0f)

@@ -27,6 +27,9 @@ public class NavMeshExample : MonoBehaviour
 
     public void MoveToTargetPosition(Vector3 targetPos)
     {
+        if (agent == null || !agent.isActiveAndEnabled || !agent.isOnNavMesh)
+            return;
+
         Vector3 finalPos;
 
         if (SamplePosition(targetPos, 10f, out finalPos))

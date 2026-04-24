@@ -125,7 +125,7 @@ public class AIEye : MonoBehaviour
         for (int i = 0; i < _count; i++)
         {
             // Si el collider tiene el tag "Player" y está dentro del campo de visión
-            if (_colliders[i].CompareTag("Toy") && IsInSight(_colliders[i]))
+            if (_colliders[i] != null && _colliders[i].CompareTag("Toy") && IsInSight(_colliders[i]))
             {
                 // Almacena el transform del jugador detectado
                 ViewPlayer = _colliders[i].transform;

@@ -1,8 +1,9 @@
 using UnityEngine;
-
+using System.Collections;
 public class FSMManager : MonoBehaviour
 {
     State currentState;
+    public bool puedeDetectarJuguete = false;
 
     [Header("Necesidades")]
     public float hambre = 0;
@@ -22,8 +23,13 @@ public class FSMManager : MonoBehaviour
     {
         currentState = new JugarState(this);
         currentState.Enter();
+        Debug.Log("NPC activo al inicio: " + gameObject.activeSelf);
+        Invoke(nameof(ActivarDeteccion), 1f);
     }
-
+    void ActivarDeteccion()
+    {
+        puedeDetectarJuguete = true;
+    }
     void Update()
     {
         //if (Input.GetKeyDown(KeyCode.J))
@@ -31,7 +37,11 @@ public class FSMManager : MonoBehaviour
 
         currentState.Execute();
     }
-
+    public IEnumerator CambiarAEstadoJugar()
+    {
+        yield return null; 
+        ChangeState(new JugarState(this));
+    }
     public void ChangeState(State newState)
     {
         currentState.Exit();

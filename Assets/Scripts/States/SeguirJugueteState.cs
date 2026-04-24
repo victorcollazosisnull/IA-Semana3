@@ -20,6 +20,16 @@ public class SeguirJugueteState : State
             if (Vector3.Distance(fsm.transform.position, fsm.juguete.position) < 1.5f)
             {
                 Debug.Log("Llegó al juguete");
+
+                GameObject jugueteObj = fsm.juguete.gameObject;
+
+                if (_AIEye.ViewPlayer == fsm.juguete)
+                    _AIEye.ViewPlayer = null;
+
+                fsm.juguete = null;
+
+                jugueteObj.SetActive(false);
+
                 fsm.ChangeState(new JugarState(fsm));
             }
         }
